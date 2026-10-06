@@ -21,11 +21,64 @@ the description has to say what is *in* the list.
 """
 
 import config  # noqa: F401 — you'll use this in search_listings
+import re
 from generate import generate
 from utils.data_loader import load_listings
 
 
 # ── Tool 1: search_listings ───────────────────────────────────────────────────
+
+
+_STOPWORDS = {
+    # articles & determiners
+    "a", "an", "the", "this", "that", "these", "those", "some", "any", "each",
+    "every", "all", "both", "either", "neither", "another", "such",
+    # pronouns
+    "i", "me", "my", "mine", "myself", "we", "us", "our", "ours", "ourselves",
+    "you", "your", "yours", "yourself", "yourselves", "he", "him", "his",
+    "himself", "she", "her", "hers", "herself", "it", "its", "itself",
+    "they", "them", "their", "theirs", "themselves", "who", "whom", "whose",
+    "which", "what",
+    # be / have / do / modals
+    "am", "is", "are", "was", "were", "be", "been", "being", "have", "has",
+    "had", "having", "do", "does", "did", "doing", "will", "would", "shall",
+    "should", "can", "could", "may", "might", "must",
+    # prepositions
+    "of", "in", "on", "at", "by", "for", "with", "about", "against", "between",
+    "into", "through", "during", "before", "after", "above", "below", "to",
+    "from", "up", "down", "out", "off", "over", "under", "across", "along",
+    "among", "around", "within", "without", "upon", "toward", "towards",
+    # conjunctions & connectors
+    "and", "but", "or", "nor", "so", "yet", "if", "because", "as", "until",
+    "while", "although", "though", "than", "whether", "unless", "since",
+    # adverbs & misc
+    "again", "further", "then", "once", "here", "there", "when", "where",
+    "why", "how", "just", "now", "only", "own", "same", "too", "very",
+    "also", "not", "no", "more", "most", "other", "few", "many", "much",
+    "several", "ever", "never", "always", "often", "still", "even",
+    # contraction fragments
+    "s", "t", "d", "ll", "m", "o", "re", "ve", "y",
+    "don", "didn", "doesn", "isn", "aren", "wasn", "weren", "won", "wouldn",
+    "couldn", "shouldn", "hasn", "haven", "hadn",
+}
+
+def _keywords(text: str) -> set[str]:
+    """Lowercase words worth matching on, stopwords removed."""
+    words = re.findall(r"[a-z0-9']+", (text or "").lower())
+    return {w for w in words if w not in _STOPWORDS and len(w) > 1}
+
+def _size_tokens(size: str) -> set[str]:
+    cleaned = re.sub(r"\([^)]*\)", " ", size or "") # drop parentheticals
+    parts = [p.strip().upper for p in cleaned.split("/")]
+    return {p for p in parts if p}
+
+def _size_matches(wanted: str, listing_size: str) -> bool:
+    if not wanted:
+        return True
+    listing_tokens = _size_tokens(listing_size)
+    if any(token.startswith("ONE SIZE") for token in listing_tokens):
+        return True
+    return bool(_size_tokens(wanted) & listing_tokens)
 
 def search_listings(
     description: str,

@@ -59,24 +59,25 @@
 
 ### `search_listings`
 
-- **What it does:**
-- **Inputs:** <!-- name and type each: `max_price` (float), not "a price" -->
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Search the listings data for items matching a description, and optionally a size and a price ceiling.
+- **Inputs:** `description` (str), `size` (str or None), `max_price` (float or None) <!-- name and type each: `max_price` (float), not "a price" -->
+- **Returns:** a list of matching dicts, best match first. Each listing dicts has these fields: id, title, description, category, style_tags (list), size,
+        condition, price (float), colors (list), brand (str or None), platform
+- **When it has nothing:** an empty list
 
 ### `suggest_outfit`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Given a thrifted item and the user's wardrobe, suggest one or two outfits.
+- **Inputs:** `new_item` (dict), `wardrobe` (dict)
+- **Returns:** A non-empty string with outfit suggestions.
+- **When it has nothing:** return general styling advice
 
 ### `create_fit_card`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Write a short caption someone would actually post about the find.
+- **Inputs:** `outfit` (str), `new_item` (dict)
+- **Returns:** A two-to-four sentence caption.
+- **When it has nothing:** return a descriptive message
 
 ---
 
@@ -93,13 +94,13 @@
      The grader checks your code against what you claim here, so the file and
      function have to be real. -->
 
-**Branch rule:**
+**Branch rule:** If search_listings returns an empty list, put a message in the session and stop. Otherwise, take the first result and go to suggest_outfit.
 
 **Where it lives:** `agent.py::run_agent`
 
-**How the query is parsed:** <!-- regex, string splitting, or asking the model — say which -->
+**How the query is parsed:** regex <!-- regex, string splitting, or asking the model — say which --> 
 
-**What moves through the session:** <!-- which fields, in what order -->
+**What moves through the session:** selected_item, outfit_suggestion, fit_card <!-- which fields, in what order -->
 
 ---
 
