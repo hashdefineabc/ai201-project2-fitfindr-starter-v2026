@@ -24,7 +24,7 @@ data earns credit; *"80% seemed reasonable"* does not.
 Given a query that matches at least one listing, the agent completes all three
 tool calls and returns a fit card — in at least 4 of 5 tries.
 
-**Why this target:**
+**Why this target:** My search is a plain keyword match and some phrasings will miss
 <!-- Why 4 of 5 and not 5 of 5? Something about your search, probably —
      "my search is a plain keyword match and some phrasings will miss" is a
      real answer. -->
@@ -36,7 +36,7 @@ tool calls and returns a fit card — in at least 4 of 5 tries.
 Given a query that matches no listings, the agent stops before calling
 `suggest_outfit` and returns a message naming what to change — 5 of 5 tries.
 
-**Why this target:**
+**Why this target:** For every try if there are no listings, the agent should not halucinate and more to the next tool.
 <!-- Why is 5 of 5 reasonable here when criterion 1 isn't? What's different
      about this path? -->
 
@@ -44,6 +44,8 @@ Given a query that matches no listings, the agent stops before calling
 
 ## 3. Something about state
 
+For all 5 of 5 tries, the item found is the same item received my the next tool. 
+The listing id present in session["selected_item"] is present in session["search_results"]
 <!-- YOU WRITE THIS ONE.
 
      How would you know that the item your search found is the same item the
@@ -56,13 +58,14 @@ Given a query that matches no listings, the agent stops before calling
 
 
 
-**Why this target:**
-
+**Why this target:** Handing an item from one tool to the next is plain code and doesn't involve a model, so every try should pass the correct item to the next tool.
 
 
 ---
 
 ## 4. Something about the fit card
+
+For all 5 of 5 tries, the fit card caption should mention the item and its price and platform once each, and be specific about it.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -78,12 +81,16 @@ Given a query that matches no listings, the agent stops before calling
 
 
 **Why this target:**
-
+A fit card must contain the price and platform of the item.
 
 
 ---
 
 ## 5. Your choice
+
+Search respects a price ceiling
+
+Given a query with a price ceiling, the selected item costs at or below the ceiling in 5 of 5 tries, and an over-ceiling item is never selected even when it's the best keyword match.
 
 <!-- YOU WRITE THIS ONE TOO.
 
@@ -94,7 +101,7 @@ Given a query that matches no listings, the agent stops before calling
 
 
 
-**Why this target:**
+**Why this target:** The ceiling is a numeric comparison in code, so there's no phrasing ambiguity and no model to blame.
 
 
 
