@@ -39,6 +39,9 @@
 
 ## What This Does
 
+FitFindr is an agent that takes a request like "a vintage graphic tee under $30, size M", searches listings, works out what the item would go with, and writes a caption for it. 
+
+If a user asks 'a vintage graphic tee under $30, size M', then they get back outfits that'd go well with the request. It also gives stylist tips and a caption for it!
 <!-- Three or four sentences: what a user asks for, and what they get back. -->
 
 
@@ -200,15 +203,15 @@ Scored these vintage Levi's 501 jeans for $38.00 on depop and they fit like an a
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked for implementations of search_listings, suggest_outfits and create_fit_card
+- *What came back:*: I got good implementations for them, but it assumed some things like the structure of the dict. I gave it extra context and the implementation worked well.
+- *What I changed:* I removed some unnecessary comments and reviewed through the code.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked it to review my acceptance criteria
+- *What came back:* It gave me some suggestions like the target for criteria 2 doesn't say why 5 of 5 should work and not 4 of 5
+- *What I changed:* I left it as it since I was running out of time
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 

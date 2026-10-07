@@ -46,6 +46,9 @@ Given a query that matches no listings, the agent stops before calling
 
 For all 5 of 5 tries, the item found is the same item received my the next tool. 
 The listing id present in session["selected_item"] is present in session["search_results"]
+
+**Why this target:** Handing an item from one tool to the next is plain code and doesn't involve a model, so every try should pass the correct item to the next tool.
+
 <!-- YOU WRITE THIS ONE.
 
      How would you know that the item your search found is the same item the
@@ -58,14 +61,15 @@ The listing id present in session["selected_item"] is present in session["search
 
 
 
-**Why this target:** Handing an item from one tool to the next is plain code and doesn't involve a model, so every try should pass the correct item to the next tool.
-
-
 ---
 
 ## 4. Something about the fit card
 
 For all 5 of 5 tries, the fit card caption should mention the item and its price and platform once each, and be specific about it.
+
+
+**Why this target:**
+A fit card must contain the price and platform of the item.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -79,11 +83,6 @@ For all 5 of 5 tries, the fit card caption should mention the item and its price
      be turned into a number. -->
 
 
-
-**Why this target:**
-A fit card must contain the price and platform of the item.
-
-
 ---
 
 ## 5. Your choice
@@ -92,16 +91,14 @@ Search respects a price ceiling
 
 Given a query with a price ceiling, the selected item costs at or below the ceiling in 5 of 5 tries, and an over-ceiling item is never selected even when it's the best keyword match.
 
+**Why this target:** The ceiling is a numeric comparison in code, so there's no phrasing ambiguity and no model to blame.
+
 <!-- YOU WRITE THIS ONE TOO.
 
      Pick something you actually care about getting right. Speed, the empty
      wardrobe path, what happens when the model can't be reached, whether the
      search respects a price ceiling — anything, as long as it names a number
      or an observable outcome. -->
-
-
-
-**Why this target:** The ceiling is a numeric comparison in code, so there's no phrasing ambiguity and no model to blame.
 
 
 
