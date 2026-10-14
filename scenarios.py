@@ -35,6 +35,27 @@ SCENARIOS = [
         "wardrobe": "empty",
         "criterion": None,
     },
+    {
+        # Item found is the same item received my the next tool.
+        "name": "state is carried over to next tool",
+        "query": "vintage graphic tee under $30",
+        "wardrobe": "example",
+        "criterion": 3,
+    },
+    {
+        # Fit card mentions the item, its price and platform.
+        "name": "fit card mentions item, price and platform",
+        "query": "vintage graphic tee under $30",
+        "wardrobe": "example",
+        "criterion": 4,
+    },
+    {
+        # Search respects a price ceiling.
+        "name": "price ceiling is considered",
+        "query": "vintage graphic tee under $30",
+        "wardrobe": "example",
+        "criterion": 5,
+    },
     # TODO: add what your criteria 3, 4 and 5 need.
     #
     # Set "criterion" to the number in criteria.md that the scenario tests.
