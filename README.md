@@ -295,12 +295,55 @@ that produced it:
 **Happy path**
 
 ```
+python3 app.py ask 'silk slip dress in midi length under $40' --trace
+[1] parse_query
+      in:  silk slip dress in midi length under $40
+      out: dict with keys: description, size, max_price
+[2] search_listings (via MCP)
+      in:  dict with keys: description, size, max_price
+      out: 5 items: 90s Silk Slip Dress — Floral, Midi Length, Y2K Baby Tee — Butterfly Print, High-Waisted Denim Shorts — Cutoff … +2 more
+      →    5 match(es)
+[3] select_item
+      out: 90s Silk Slip Dress — Floral, Midi Length ($30.0, depop)
+[4] suggest_outfit
+      in:  90s Silk Slip Dress — Floral, Midi Length ($30.0, depop)
+      out: **Outfit 1: 90s Grunge Layering** Wear the 90s Silk Slip Dress layered over the White ribbed tank top to tone …
+      →    10 wardrobe item(s)
+[5] create_fit_card
+      in:  90s Silk Slip Dress — Floral, Midi Length ($30.0, depop)
+      out: Scored this 90s silk slip dress on depop for $30.00 and I’m so ready to lean into that moody 90s grunge look w…
 
+  Found:    90s Silk Slip Dress — Floral, Midi Length — $30.0 on depop
+
+  Outfit:   **Outfit 1: 90s Grunge Layering**
+Wear the 90s Silk Slip Dress layered over the White ribbed tank top to tone down the neckline, and throw the Oversized grey crewneck sweatshirt right over the top for a slouchy, textured contrast. Finish the look with Black combat boots and the Black crossbody bag. 
+
+**Outfit 2: Y2K Streetwear Twist**
+Take the 90s Silk Slip Dress and wear it right over your Baggy straight-leg jeans for that classic 90s/Y2K dress-over-pants look. Layer the Black cropped zip hoodie on top, and tie it all together with Chunky white sneakers and the Black crossbody bag.
+
+  Fit card: Scored this 90s silk slip dress on depop for $30.00 and I’m so ready to lean into that moody 90s grunge look with combat boots, or go full Y2K with baggy jeans. It has the sweetest little floral print and hits right at the midi length.
+
+0 model calls this session, 2 served from cache
 ```
 
 **Empty search**
 
-```
+``` 
+python3 app.py ask 'designer ballgown size XXS under $5' --trace
+[1] parse_query
+      in:  designer ballgown size XXS under $5
+      out: dict with keys: description, size, max_price
+[2] search_listings (via MCP)
+      in:  dict with keys: description, size, max_price
+      out: [] (empty)
+      →    0 match(es)
+[3] branch
+      →    search returned []: stopping before suggest_outfit
+
+  Nothing in the listings matched description 'designer ballgown', size XXS, under $5.
+Things to change: try broader words — 'jacket' finds more than 'cropped corduroy jacket'; drop the size, or try a neighbouring one; raise the price ceiling above $5.
+
+0 model calls this session
 
 ```
 
